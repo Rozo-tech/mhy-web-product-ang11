@@ -1,0 +1,44 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "name": "Computer Acer",
+      "price": 4300,
+      "quantity": "450000",
+      "selected": false,
+      "available": true
+    },
+    {
+      "id": 2,
+      "name": "Printer",
+      "price": "90",
+      "quantity": 0,
+      "selected": false,
+      "available": false
+    },
+    {
+      "id": 3,
+      "name": "SmartPhone",
+      "price": 0,
+      "quantity": 0,
+      "selected": true,
+      "available": true
+    },
+    {
+      "name": "Sac",
+      "price": 5000,
+      "quantity": 123,
+      "available": false,
+      "selected": false,
+      "id": 4
+    },
+    {
+      "name": "Samsung",
+      "price": "150000",
+      "quantity": "2",
+      "selected": true,
+      "available": true,
+      "id": 5
+    }
+  ]
+}
