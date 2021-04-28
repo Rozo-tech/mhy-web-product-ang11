@@ -13,7 +13,7 @@
       "name": "Printer",
       "price": "90",
       "quantity": 0,
-      "selected": false,
+      "selected": true,
       "available": false
     },
     {
@@ -21,7 +21,7 @@
       "name": "SmartPhone",
       "price": 0,
       "quantity": 0,
-      "selected": true,
+      "selected": false,
       "available": true
     },
     {
@@ -29,7 +29,7 @@
       "price": 5000,
       "quantity": 123,
       "available": false,
-      "selected": false,
+      "selected": true,
       "id": 4
     },
     {

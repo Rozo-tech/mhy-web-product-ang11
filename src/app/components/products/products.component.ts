@@ -3,8 +3,9 @@ import {Product} from "../../model/product.model";
 import {Observable, of} from "rxjs";
 import {ProductsService} from "../../services/products.service";
 import {Router} from "@angular/router";
-import {AppDataState, DataStateEnum} from "../../state/product.state";
+import {ActionEvent, AppDataState, DataStateEnum, ProductActionsTypes} from "../../state/product.state";
 import {catchError, map, startWith} from "rxjs/operators";
+import {EventDriverService} from "../../state/event.driver.service";
 
 @Component({
   selector: 'app-products',
@@ -12,13 +13,18 @@ import {catchError, map, startWith} from "rxjs/operators";
   styleUrls: ['./products.component.css']
 })
 export class ProductsComponent implements OnInit {
+  products$:Observable<AppDataState<Product[]>> |null=null;
+  readonly DataStateEnum=DataStateEnum;
   //products$:Observable<Product[]>|null=null;
-   products$:Observable<AppDataState<Product[]>> |null=null;
-   readonly DataStateEnum=DataStateEnum;
 
-  constructor(private productsService:ProductsService, private router:Router) { }
+
+  constructor(private productsService:ProductsService, private router:Router,
+              private eventDrivenService:EventDriverService) { }
 
   ngOnInit(): void {
+    this.eventDrivenService.sourceEventSubjectObservable.subscribe((actionEvent:ActionEvent)=>{
+      this.onActionEvent(actionEvent);
+    });
   }
   onGetAllProducts() {
     this.products$= this.productsService.getAllProducts().pipe(
@@ -87,5 +93,23 @@ export class ProductsComponent implements OnInit {
 
    onEdit(p: Product) {
      this.router.navigateByUrl("/editProduct/"+p.id);
+   }
+
+
+  onActionEvent($event: ActionEvent) {
+      //onActionEvent($event: any) {
+      /* if ($event=='ALL_PRODUCTS'){
+      this.onGetAllProducts();
+     } */
+       switch ($event.type) {
+         case ProductActionsTypes.GET_ALL_PRODUCTS: this.onGetAllProducts();break;
+         case ProductActionsTypes.GET_SELECTED_PRODUCTS: this.onGetSelectedProducts();break;
+         case ProductActionsTypes.GET_AVAILABLE_PRODUCTS: this.onGetAvailableProducts();break;
+         case ProductActionsTypes.SEARCH_PRODUCTS: this.onSearch($event.payload);break;
+         case ProductActionsTypes.NEW_PRODUCT: this.onNewProduct();break;
+         case ProductActionsTypes.SELECT_PRODUCT: this.onSelect($event.payload);break;
+         case ProductActionsTypes.DELETE_PRODUCT: this.onDelete($event.payload);break;
+         case ProductActionsTypes.EDIT_PRODUCT: this.onEdit($event.payload);break;
+       }
    }
 }
